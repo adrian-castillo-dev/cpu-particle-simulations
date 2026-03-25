@@ -18,9 +18,16 @@ namespace SimulationEngine.Core
                 particles[i].gameObject = Instantiate(particlePrefab, particles[i].position, Quaternion.identity);
                 particles[i].gameObject.transform.localScale = Vector3.one * particleRadius;
                 particles[i].gameObject.transform.parent = particlesParent.transform; // Initializes the particles inside 'particlesParent'
-            
+                
                 float hue = (float)particles[i].type / (float)types;
-                particles[i].gameObject.GetComponent<Renderer>().material.color = Color.HSVToRGB(hue, 1, 1);
+                Material mat = particles[i].gameObject.GetComponent<Renderer>().material;
+                mat.EnableKeyword("_EMISSION"); 
+                
+                float intensity = 1.0f; // Adjust as needed
+                Color emissiveColor = Color.HSVToRGB(hue, 1, 1) * intensity;
+                mat.SetColor("_EmissionColor", emissiveColor);
+                
+                mat.globalIlluminationFlags = MaterialGlobalIlluminationFlags.None;
             }
 
             return particles;
