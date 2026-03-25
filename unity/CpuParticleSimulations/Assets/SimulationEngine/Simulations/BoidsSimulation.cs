@@ -121,7 +121,7 @@ namespace SimulationEngine.Simulations
             for (int i = 0; i < boidsCount; i++) {
                 particles[i].position += particles[i].velocity * Time.deltaTime;
                 particles[i].gameObject.transform.position = particles[i].position;
-   
+                particles[i].gameObject.transform.rotation = Quaternion.LookRotation(particles[i].velocity);
             }
         
         }
